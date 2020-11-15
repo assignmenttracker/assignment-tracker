@@ -8,6 +8,7 @@
 
 plugins {
     // Apply the java-library plugin to add support for Java Library
+    id 'java'
     id 'java-library'
 }
 
@@ -24,3 +25,6 @@ dependencies {
     // Use JUnit test framework
     testImplementation 'junit:junit:4.12'
 }
+
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
