@@ -15,4 +15,12 @@ public class Assignment implements Comparable<Assignment> {
 		return 0;
 	}
 
+	public String getName() {
+		return name;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
 }
