@@ -30,5 +30,4 @@ public class Assignment implements Comparable<Assignment> {
 	public LocalDateTime getDue() {
 		return due;
 	}
-
 }

@@ -110,5 +110,4 @@ public class GoogleClassroomProvider extends AssignmentProvider {
 		}
 		return assignments;
 	}
-
 }
