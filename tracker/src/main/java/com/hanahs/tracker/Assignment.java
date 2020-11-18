@@ -2,7 +2,7 @@ package com.hanahs.tracker;
 
 import java.time.LocalDateTime;
 
-public class Assignment implements Comparable<Assignment> {
+public class Assignment {
 	private String name;
 	private String description;
 	private LocalDateTime due;
@@ -11,12 +11,6 @@ public class Assignment implements Comparable<Assignment> {
 		this.name = name;
 		this.description = description;
 		this.due = due;
-	}
-
-	@Override
-	public int compareTo(Assignment arg0) {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 
 	public String getName() {
