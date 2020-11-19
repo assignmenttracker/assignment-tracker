@@ -12,7 +12,7 @@ class AssignmentTest {
 	void test() {
 		String name = "물리학 실험보고서";
 		String description = "실험 보고서를 작성하세요. 11월 12일까지 제출.";
-		LocalDateTime due = LocalDateTime.now();
+		LocalDateTime due = LocalDateTime.of(2020, 11, 12, 11, 59);
 		Assignment assignment = new Assignment(name, description, due);
 		assertNotNull(assignment);
 		assertEquals(name, assignment.getName());
