@@ -21,5 +21,6 @@ class AssignmentTest {
 		Set<String> wordPool = assignment.getWordPool();
 		assertTrue(wordPool.contains("보고서"));
 		assertTrue(wordPool.contains("실험"));
+		assertEquals(2, assignment.getDifficulty());
 	}
 }
