@@ -96,18 +96,22 @@ public class GoogleClassroomProvider extends AssignmentProvider {
 	public List<Assignment> fetchAssignments() throws IOException {
 		if (courses == null || courses.size() == 0) return null;
 		ArrayList<Assignment> assignments = new ArrayList<>();
-		for (Course course: this.courses) {
+		this.courses.parallelStream().forEach(course -> {
 			String courseId = course.getId();
-			ListCourseWorkResponse response = service.courses().courseWork().list(courseId).execute();
-			List<CourseWork> courseWorks = response.getCourseWork();
-			if (courseWorks == null || courseWorks.size() == 0) continue;
-			for (CourseWork courseWork: courseWorks) {
-				Assignment assignment = this.convertCourseWorkToAssignment(courseWork);
-				if (this.checkCourseWorkCompletion(courseWork)) continue;
-				if (assignment == null) continue;
-				assignments.add(assignment);
-			}
-		}
+			try {
+				ListCourseWorkResponse response = service.courses().courseWork().list(courseId).execute();
+				List<CourseWork> courseWorks = response.getCourseWork();
+				if (courseWorks == null || courseWorks.size() == 0) return;
+				courseWorks.parallelStream().forEach((courseWork) -> {
+					Assignment assignment = this.convertCourseWorkToAssignment(courseWork);
+					try {
+						if (this.checkCourseWorkCompletion(courseWork)) return;
+					} catch (IOException e) {}
+					if (assignment == null) return;
+					assignments.add(assignment);
+				});
+			} catch (IOException e) {}
+		});
 		return assignments;
 	}
 }
