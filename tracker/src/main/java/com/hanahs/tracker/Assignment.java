@@ -39,15 +39,7 @@ public class Assignment {
 		this.name = name;
 		this.description = description;
 		this.due = due;
-		CharSequence normalizedTitle = TwitterKoreanProcessorJava.normalize(this.name);
-		Seq<KoreanToken> titleTokens = TwitterKoreanProcessorJava.tokenize(normalizedTitle);
-		CharSequence normalizedDescription = TwitterKoreanProcessorJava.normalize(this.description);
-		Seq<KoreanToken> descriptionTokens = TwitterKoreanProcessorJava.tokenize(normalizedDescription);
-		this.wordPool = new HashSet<>();
-		this.wordPool.addAll(TwitterKoreanProcessorJava.tokensToJavaStringList(titleTokens));
-		this.wordPool.addAll(TwitterKoreanProcessorJava.tokensToJavaStringList(descriptionTokens));
-		this.wordPool = this.wordPool.stream().filter((x) -> x.length() > 1).filter((x) -> x.trim().length() > 0)
-				.collect(Collectors.toSet());
+		this.wordPool = null;
 	}
 
 	public String getName() {
@@ -63,6 +55,18 @@ public class Assignment {
 	}
 
 	public Set<String> getWordPool() {
+		if (wordPool != null) return wordPool;
+		CharSequence normalizedTitle = TwitterKoreanProcessorJava.normalize(name);
+		Seq<KoreanToken> titleTokens = TwitterKoreanProcessorJava.tokenize(normalizedTitle);
+		Seq<KoreanToken> stemmedTitleTokens = TwitterKoreanProcessorJava.stem(titleTokens);
+		CharSequence normalizedDescription = TwitterKoreanProcessorJava.normalize(description);
+		Seq<KoreanToken> descriptionTokens = TwitterKoreanProcessorJava.tokenize(normalizedDescription);
+		Seq<KoreanToken> stemmedDescripionTokens = TwitterKoreanProcessorJava.stem(descriptionTokens);
+		wordPool = new HashSet<>();
+		wordPool.addAll(TwitterKoreanProcessorJava.tokensToJavaStringList(stemmedTitleTokens));
+		wordPool.addAll(TwitterKoreanProcessorJava.tokensToJavaStringList(stemmedDescripionTokens));
+		wordPool = wordPool.stream().filter((x) -> x.length() > 1).filter((x) -> x.trim().length() > 0)
+				.collect(Collectors.toSet());
 		return wordPool;
 	}
 }
