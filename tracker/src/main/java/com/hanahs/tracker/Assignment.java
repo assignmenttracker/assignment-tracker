@@ -17,7 +17,7 @@ public class Assignment {
 	private String description;
 	private LocalDateTime due;
 	private Set<String> wordPool;
-	private Integer difficulty;
+	private Integer estimatedETA;
 	
 	private Set<String> presentationWords = new HashSet<>(Arrays.asList("발표", "presentation", "피피티", "ppt"));
 	private Set<String> bookReportWords = new HashSet<>(Arrays.asList("독후감", "book"));
@@ -27,7 +27,7 @@ public class Assignment {
 	
 	@Override
 	public int hashCode() {
-		return Objects.hash(description, difficulty, due, name, wordPool);
+		return Objects.hash(description, estimatedETA, due, name, wordPool);
 	}
 
 	@Override
@@ -37,7 +37,7 @@ public class Assignment {
 		if (!(obj instanceof Assignment))
 			return false;
 		Assignment other = (Assignment) obj;
-		return Objects.equals(description, other.description) && difficulty == other.difficulty
+		return Objects.equals(description, other.description) && estimatedETA == other.estimatedETA
 				&& Objects.equals(due, other.due) && Objects.equals(name, other.name)
 				&& Objects.equals(wordPool, other.wordPool);
 	}
@@ -46,7 +46,7 @@ public class Assignment {
 		this.name = name;
 		this.description = description;
 		this.due = due;
-		this.difficulty = null;
+		this.estimatedETA = null;
 		this.wordPool = null;
 	}
 
@@ -78,8 +78,8 @@ public class Assignment {
 		return wordPool;
 	}
 
-	public Integer getDifficulty() {
-		if (difficulty != null) return difficulty;
+	public Integer getEstimatedETA() {
+		if (estimatedETA != null) return estimatedETA;
 		Set<String> pool = getWordPool();
 		Set<String> presentation = new HashSet<>(pool);
 		presentation.retainAll(presentationWords);
@@ -91,12 +91,12 @@ public class Assignment {
 		report.retainAll(reportWords);
 		Set<String> problemSolve = new HashSet<>(pool);
 		problemSolve.retainAll(problemSolveWords);
-		if (presentation != null && presentation.size() > 0) difficulty = 5;
-		else if (video != null && video.size() > 0) difficulty = 4;
-		else if (bookReport != null && bookReport.size() > 0) difficulty = 3;
-		else if (report != null && report.size() > 0) difficulty = 2;
-		else if (problemSolve != null && problemSolve.size() > 0) difficulty = 1;
-		else difficulty = 0;
- 		return difficulty;
+		if (presentation != null && presentation.size() > 0) estimatedETA = 5;
+		else if (video != null && video.size() > 0) estimatedETA = 4;
+		else if (bookReport != null && bookReport.size() > 0) estimatedETA = 3;
+		else if (report != null && report.size() > 0) estimatedETA = 2;
+		else if (problemSolve != null && problemSolve.size() > 0) estimatedETA = 1;
+		else estimatedETA = 0;
+ 		return estimatedETA;
 	}
 }
