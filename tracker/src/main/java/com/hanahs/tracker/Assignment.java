@@ -1,6 +1,7 @@
 package com.hanahs.tracker;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -17,6 +18,12 @@ public class Assignment {
 	private LocalDateTime due;
 	private Set<String> wordPool;
 	private Integer difficulty;
+	
+	private Set<String> presentationWords = new HashSet<>(Arrays.asList("발표", "presentation", "피피티", "ppt"));
+	private Set<String> bookReportWords = new HashSet<>(Arrays.asList("독후감", "book"));
+	private Set<String> reportWords = new HashSet<>(Arrays.asList("보고서", "리포트", "report"));
+	private Set<String> videoWords = new HashSet<>(Arrays.asList("영상", "시청", "video"));
+	private Set<String> problemSolveWords = new HashSet<>(Arrays.asList("풀이", "문제", "문제풀이", "solve"));
 	
 	@Override
 	public int hashCode() {
@@ -39,6 +46,7 @@ public class Assignment {
 		this.name = name;
 		this.description = description;
 		this.due = due;
+		this.difficulty = null;
 		this.wordPool = null;
 	}
 
@@ -68,5 +76,27 @@ public class Assignment {
 		wordPool = wordPool.stream().filter((x) -> x.length() > 1).filter((x) -> x.trim().length() > 0)
 				.collect(Collectors.toSet());
 		return wordPool;
+	}
+
+	public Integer getDifficulty() {
+		if (difficulty != null) return difficulty;
+		Set<String> pool = getWordPool();
+		Set<String> presentation = new HashSet<>(pool);
+		presentation.retainAll(presentationWords);
+		Set<String> video = new HashSet<>(pool);
+		video.retainAll(videoWords);
+		Set<String> bookReport = new HashSet<>(pool);
+		bookReport.retainAll(bookReportWords);
+		Set<String> report = new HashSet<>(pool);
+		report.retainAll(reportWords);
+		Set<String> problemSolve = new HashSet<>(pool);
+		problemSolve.retainAll(problemSolveWords);
+		if (presentation != null && presentation.size() > 0) difficulty = 5;
+		else if (video != null && video.size() > 0) difficulty = 4;
+		else if (bookReport != null && bookReport.size() > 0) difficulty = 3;
+		else if (report != null && report.size() > 0) difficulty = 2;
+		else if (problemSolve != null && problemSolve.size() > 0) difficulty = 1;
+		else difficulty = 0;
+ 		return difficulty;
 	}
 }
