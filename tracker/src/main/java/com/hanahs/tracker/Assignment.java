@@ -12,6 +12,23 @@ import com.twitter.penguin.korean.tokenizer.KoreanTokenizer.KoreanToken;
 import scala.collection.Seq;
 
 public class Assignment {
+	@Override
+	public int hashCode() {
+		return Objects.hash(description, difficulty, due, name, wordPool);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!(obj instanceof Assignment))
+			return false;
+		Assignment other = (Assignment) obj;
+		return Objects.equals(description, other.description) && difficulty == other.difficulty
+				&& Objects.equals(due, other.due) && Objects.equals(name, other.name)
+				&& Objects.equals(wordPool, other.wordPool);
+	}
+
 	private String name;
 	private String description;
 	private LocalDateTime due;
