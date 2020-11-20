@@ -2,6 +2,7 @@ package com.hanahs.tracker;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -21,6 +22,9 @@ class AssignmentTest {
 		Set<String> wordPool = assignment.getWordPool();
 		assertTrue(wordPool.contains("보고서"));
 		assertTrue(wordPool.contains("실험"));
-		assertEquals(2, assignment.getEstimatedETA());
+		int estimatedETA = assignment.getEstimatedETA();
+		assertEquals(2, estimatedETA);
+		LocalDate startDate = LocalDate.from(due).minusDays(estimatedETA);
+		assertEquals(startDate, LocalDate.of(2020, 11, 10));
 	}
 }

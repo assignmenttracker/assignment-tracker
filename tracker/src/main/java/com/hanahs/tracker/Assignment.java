@@ -1,5 +1,6 @@
 package com.hanahs.tracker;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -18,6 +19,7 @@ public class Assignment {
 	private LocalDateTime due;
 	private Set<String> wordPool;
 	private Integer estimatedETA;
+	private LocalDate estimatedStartDate;
 	
 	private Set<String> presentationWords = new HashSet<>(Arrays.asList("발표", "presentation", "피피티", "ppt"));
 	private Set<String> bookReportWords = new HashSet<>(Arrays.asList("독후감", "book"));
@@ -98,5 +100,11 @@ public class Assignment {
 		else if (problemSolve != null && problemSolve.size() > 0) estimatedETA = 1;
 		else estimatedETA = 0;
  		return estimatedETA;
+	}
+
+	public LocalDate getEstimatedStartDate() {
+		if (estimatedStartDate != null) return estimatedStartDate;
+		estimatedStartDate = LocalDate.from(due).minusDays(getEstimatedETA());
+		return estimatedStartDate;
 	}
 }
