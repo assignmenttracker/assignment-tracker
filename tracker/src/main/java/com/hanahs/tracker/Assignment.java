@@ -29,7 +29,8 @@ public class Assignment {
 	
 	@Override
 	public int hashCode() {
-		return Objects.hash(description, estimatedETA, due, name, wordPool);
+		return Objects.hash(bookReportWords, description, due, estimatedETA, estimatedStartDate, name,
+				presentationWords, problemSolveWords, reportWords, videoWords, wordPool);
 	}
 
 	@Override
@@ -39,8 +40,12 @@ public class Assignment {
 		if (!(obj instanceof Assignment))
 			return false;
 		Assignment other = (Assignment) obj;
-		return Objects.equals(description, other.description) && estimatedETA == other.estimatedETA
-				&& Objects.equals(due, other.due) && Objects.equals(name, other.name)
+		return Objects.equals(bookReportWords, other.bookReportWords) && Objects.equals(description, other.description)
+				&& Objects.equals(due, other.due) && Objects.equals(getEstimatedETA(), other.getEstimatedETA())
+				&& Objects.equals(getEstimatedStartDate(), other.getEstimatedStartDate()) && Objects.equals(name, other.name)
+				&& Objects.equals(presentationWords, other.presentationWords)
+				&& Objects.equals(problemSolveWords, other.problemSolveWords)
+				&& Objects.equals(reportWords, other.reportWords) && Objects.equals(videoWords, other.videoWords)
 				&& Objects.equals(wordPool, other.wordPool);
 	}
 
