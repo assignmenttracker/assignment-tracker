@@ -41,10 +41,10 @@ public class GoogleClassroomProvider extends AssignmentProvider {
 		ClassroomScopes.CLASSROOM_COURSES_READONLY,
 		ClassroomScopes.CLASSROOM_COURSEWORK_ME_READONLY
 	);
-	
+
 	private Classroom service;
 	private List<Course> courses;
-	
+
 	private static Credential getCredentials(final NetHttpTransport transport) throws IOException {
 		InputStream input = GoogleClassroomProvider.class.getResourceAsStream(credentialsFilePath);
 		if (input == null) {
@@ -56,7 +56,7 @@ public class GoogleClassroomProvider extends AssignmentProvider {
 		LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
 		return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
 	}
-	
+
 	private boolean checkCourseWorkCompletion(CourseWork courseWork) throws IOException {
 		String courseId = courseWork.getCourseId();
 		String courseWorkId = courseWork.getId();
@@ -67,7 +67,7 @@ public class GoogleClassroomProvider extends AssignmentProvider {
 		List<StudentSubmission> submissions = response.getStudentSubmissions();
 		return submissions != null && submissions.size() > 0;
 	}
-	
+
 	private Assignment convertCourseWorkToAssignment(CourseWork courseWork) {
 		String name = courseWork.getTitle();
 		String description = courseWork.getDescription();
@@ -82,7 +82,7 @@ public class GoogleClassroomProvider extends AssignmentProvider {
 		LocalDateTime due = LocalDateTime.of(year, month, dayOfMonth, hour, minute);
 		return new Assignment(name, description, due);
 	}
-	
+
 	public GoogleClassroomProvider() throws GeneralSecurityException, IOException {
 		super();
 		final NetHttpTransport transport = GoogleNetHttpTransport.newTrustedTransport();
