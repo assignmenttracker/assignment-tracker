@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 
 class AssignmentTest {
 	@Test
-	void test() {
+	void constructorWorksProperly() {
 		String name = "물리학 실험보고서";
 		String description = "실험 보고서를 작성하세요. 11월 12일까지 제출.";
 		LocalDateTime due = LocalDateTime.of(2020, 11, 12, 11, 59);
