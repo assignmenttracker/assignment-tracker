@@ -27,7 +27,8 @@ dependencies {
 	implementation 'com.google.api-client:google-api-client:1.23.0'
     implementation 'com.google.oauth-client:google-oauth-client-jetty:1.23.0'
     implementation 'com.google.apis:google-api-services-classroom:v1-rev135-1.23.0'
-    implementation 'com.twitter.penguin:korean-text:4.4.4'
+    implementation 'org.openkoreantext:open-korean-text:2.3.1'
+    implementation 'com.github.scribejava:scribejava-core:8.0.0'
 }
 
 test {

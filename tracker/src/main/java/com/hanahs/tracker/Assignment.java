@@ -8,8 +8,8 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.twitter.penguin.korean.TwitterKoreanProcessorJava;
-import com.twitter.penguin.korean.tokenizer.KoreanTokenizer.KoreanToken;
+import org.openkoreantext.processor.OpenKoreanTextProcessorJava;
+import org.openkoreantext.processor.tokenizer.KoreanTokenizer.KoreanToken;
 
 import scala.collection.Seq;
 
@@ -71,15 +71,13 @@ public class Assignment {
 
 	public Set<String> getWordPool() {
 		if (wordPool != null) return wordPool;
-		CharSequence normalizedTitle = TwitterKoreanProcessorJava.normalize(name);
-		Seq<KoreanToken> titleTokens = TwitterKoreanProcessorJava.tokenize(normalizedTitle);
-		Seq<KoreanToken> stemmedTitleTokens = TwitterKoreanProcessorJava.stem(titleTokens);
-		CharSequence normalizedDescription = TwitterKoreanProcessorJava.normalize(description);
-		Seq<KoreanToken> descriptionTokens = TwitterKoreanProcessorJava.tokenize(normalizedDescription);
-		Seq<KoreanToken> stemmedDescripionTokens = TwitterKoreanProcessorJava.stem(descriptionTokens);
+		CharSequence normalizedTitle = OpenKoreanTextProcessorJava.normalize(name);
+		Seq<KoreanToken> titleTokens = OpenKoreanTextProcessorJava.tokenize(normalizedTitle);
+		CharSequence normalizedDescription = OpenKoreanTextProcessorJava.normalize(description);
+		Seq<KoreanToken> descriptionTokens = OpenKoreanTextProcessorJava.tokenize(normalizedDescription);
 		wordPool = new HashSet<>();
-		wordPool.addAll(TwitterKoreanProcessorJava.tokensToJavaStringList(stemmedTitleTokens));
-		wordPool.addAll(TwitterKoreanProcessorJava.tokensToJavaStringList(stemmedDescripionTokens));
+		wordPool.addAll(OpenKoreanTextProcessorJava.tokensToJavaStringList(titleTokens));
+		wordPool.addAll(OpenKoreanTextProcessorJava.tokensToJavaStringList(descriptionTokens));
 		wordPool = wordPool.stream().filter((x) -> x.length() > 1).filter((x) -> x.trim().length() > 0)
 				.collect(Collectors.toSet());
 		return wordPool;
