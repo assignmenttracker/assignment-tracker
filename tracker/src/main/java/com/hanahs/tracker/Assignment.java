@@ -25,7 +25,7 @@ public class Assignment {
 	private Set<String> bookReportWords = new HashSet<>(Arrays.asList("독후감", "book"));
 	private Set<String> reportWords = new HashSet<>(Arrays.asList("보고서", "리포트", "report"));
 	private Set<String> videoWords = new HashSet<>(Arrays.asList("영상", "시청", "video"));
-	private Set<String> problemSolveWords = new HashSet<>(Arrays.asList("풀이", "문제", "문제풀이", "solve"));
+	private Set<String> problemSolveWords = new HashSet<>(Arrays.asList("풀다", "풀이", "문제", "문제풀이", "solve"));
 	
 	@Override
 	public int hashCode() {
