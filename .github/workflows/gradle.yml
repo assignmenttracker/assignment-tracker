@@ -10,9 +10,11 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
+  build_and_test:
 
     runs-on: ubuntu-latest
+    env:
+      working-directory: ./tracker
 
     steps:
     - uses: actions/checkout@v2
