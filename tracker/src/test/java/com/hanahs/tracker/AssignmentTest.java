@@ -36,6 +36,17 @@ class AssignmentTest {
 		assertEquals(startDate, LocalDate.of(2020, 11, 10));
 	}
 
+	@Test
+	void equalsWorksProperly() {
+		assertTrue(assignment.equals(assignment));
+		Assignment another1 = new Assignment("다른 과제", description, due);
+		assertFalse(assignment.equals(another1));
+		Assignment another2 = new Assignment(name, "다른 디스크립션", due);
+		assertFalse(assignment.equals(another2));
+		Assignment another3 = new Assignment(name, description, LocalDateTime.of(2020, 11, 11, 11, 59));
+		assertFalse(assignment.equals(another3));
+	}
+
 	@AfterEach
 	void tearDown() throws Exception {
 		assignment = null;
