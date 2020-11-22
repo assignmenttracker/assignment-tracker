@@ -1,6 +1,6 @@
 version: 2
 updates:
-  - package-ecosystem: "java"
+  - package-ecosystem: "gradle"
     directory: "/tracker"
     schedule:
       interval: "daily"
