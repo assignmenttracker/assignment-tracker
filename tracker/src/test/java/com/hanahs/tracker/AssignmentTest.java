@@ -6,15 +6,23 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class AssignmentTest {
+	private Assignment assignment;
+	private String name = "물리학 실험보고서";
+	private String description = "실험 보고서를 작성하세요. 11월 12일까지 제출.";
+	private LocalDateTime due = LocalDateTime.of(2020, 11, 12, 11, 59);
+
+	@BeforeEach
+	void setUp() throws Exception {
+		assignment = new Assignment(name, description, due);
+	}
+
 	@Test
 	void constructorWorksProperly() {
-		String name = "물리학 실험보고서";
-		String description = "실험 보고서를 작성하세요. 11월 12일까지 제출.";
-		LocalDateTime due = LocalDateTime.of(2020, 11, 12, 11, 59);
-		Assignment assignment = new Assignment(name, description, due);
 		assertNotNull(assignment);
 		assertEquals(name, assignment.getName());
 		assertEquals(description, assignment.getDescription());
@@ -26,5 +34,10 @@ class AssignmentTest {
 		assertEquals(2, estimatedETA);
 		LocalDate startDate = LocalDate.from(due).minusDays(estimatedETA);
 		assertEquals(startDate, LocalDate.of(2020, 11, 10));
+	}
+
+	@AfterEach
+	void tearDown() throws Exception {
+		assignment = null;
 	}
 }
