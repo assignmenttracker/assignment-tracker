@@ -1,7 +1,21 @@
 package com.hanahs.tracker;
 
-public class Main {
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
+public class Main extends Application {
 	public static void main(String[] args) {
-		System.out.println("Hell world");
+		Application.launch(Main.class, args);
+	}
+
+	@Override
+	public void start(Stage primaryStage) throws Exception {
+		Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("MainScreen.fxml"));
+		primaryStage.setTitle("Test");
+		primaryStage.setScene(new Scene(root, 500, 500));
+		primaryStage.show();
 	}
 }
