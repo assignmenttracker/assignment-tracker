@@ -1,18 +1,21 @@
 package com.hanahs.tracker;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.text.Text;
+import javafx.scene.layout.GridPane;
+import javafx.scene.control.ListView;
+import javafx.scene.control.Label;
 
 public class Controller {
-	
-	@FXML
-	private Text result;
-	
-	@FXML
-	private void opopop(ActionEvent event) {
-		result.setText(result.getText() + ((Button) event.getSource()).getText());
+	@FXML GridPane calendarGrid;
+	@FXML ListView accountList;
+	@FXML Label scheduleDescriptionLabel;
+	@FXML ListView scheduleList;
+
+	@FXML public void addAccountButtonAction() {
+		System.out.println("Account Add");
 	}
 
+	@FXML public void deleteAccountButtonAction() {
+		System.out.println("Account Delete");
+	}
 }
