@@ -58,6 +58,7 @@ public class MainScreenController {
 				label.setPrefWidth(Double.MAX_VALUE);
 				label.getStyleClass().add("calendar-date");
 				label.setId(String.format("label_%d_%d", x, y + 1));
+				label.getProperties().put("date", current);
 				EventHandler<MouseEvent> handler = new EventHandler<MouseEvent>() {
 					@Override
 					public void handle(MouseEvent event) {
