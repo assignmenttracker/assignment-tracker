@@ -2,7 +2,9 @@ package com.hanahs.tracker;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,11 +31,12 @@ public class MainScreenController {
 	@FXML private GridPane calendarGrid;
 	@FXML private ListView<AssignmentProvider> accountList;
 	@FXML private Label scheduleDescriptionLabel;
-	@FXML private ListView scheduleList;
+	@FXML private ListView<String> scheduleList;
 	@FXML Spinner<Integer> scheduleDays;
 	private int currentSelectionY = -1;
 	private int currentSelectionX = -1;
 	private AssignmentManager manager;
+	private List<List<Assignment>> schedule;
 	
 	
 	private Node getNodeFromGridPane(int col, int row) {
@@ -69,26 +72,39 @@ public class MainScreenController {
 								Label lastSelected = (Label)lastSelectedNode;
 								lastSelected.getStyleClass().remove("calendar-date-selected");
 							}
-							label.getProperties().get("Date");
-							int days = Optional.ofNullable((Integer)scheduleDays.getValue()).orElse(0);
-							try {
-								List<List<Assignment>> schedule = manager.scheduleAssignments(days, 5);
-							} catch (IOException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-								String titleText = "오류 발생";
-								String contentText = "스케쥴을 불러오는 과정에서 오류가 발생했습니다.";
-								showErrorAlert(titleText, contentText);
-								
-							}
-							accountList.setItems(FXCollections.observableArrayList(manager.getProviders()));
 						}
 						Label sender = (Label)event.getSource();
 						sender.getStyleClass().add("calendar-date-selected");
 						currentSelectionX = GridPane.getColumnIndex(sender);
 						currentSelectionY = GridPane.getRowIndex(sender);
+						
+						if (schedule == null || schedule.size() == 0) return;
+						LocalDate selectedDate = (LocalDate) sender.getProperties().get("date");
+						LocalDate today = LocalDate.now();
+						LocalDate endOfSchedule = today.plusDays(schedule.size() - 1);
+						List<String> assignments = new ArrayList<>();
+						if (today.isAfter(selectedDate)) {
+							scheduleList.setItems(FXCollections.observableArrayList(assignments));
+							return;
+						}
+						if (endOfSchedule.isBefore(selectedDate)) {
+							scheduleList.setItems(FXCollections.observableArrayList(assignments));
+							return;
+						}
+						public void differenceCalculator() throws ParseException {
+							SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
+							Date firstDate = sdf.parse(today);
+							Date secondDate = sdf.parse(selectedDate);
+							long diffInMillies = Math.abs(secondDate.getTime() - firstDate.getTime());
+						    long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+						 
+						    assertEquals(6, diff);
+						}
+						for(String assigns : assignments) {
+							listView.setItems(FXCollections.observableArrayList("assigns", diff));
+						}
 					}
-				}
+				};
 				label.addEventHandler(MouseEvent.MOUSE_CLICKED, handler);
 				calendarGrid.add(label, x, y + 1);
 				current = current.plusDays(1);
@@ -149,7 +165,7 @@ public class MainScreenController {
 	@FXML public void scheduleAssignmentAction() {
 		try {
 			int days = Optional.ofNullable((Integer)scheduleDays.getValue()).orElse(0);
-			List<List<Assignment>> schedule = manager.scheduleAssignments(days, 5);
+			schedule = manager.scheduleAssignments(days, 5);
 		} catch(IOException e) {
 			e.printStackTrace();
 			String titleText = "오류 발생";
