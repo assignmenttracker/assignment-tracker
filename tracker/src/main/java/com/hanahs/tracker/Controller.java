@@ -46,6 +46,7 @@ public class Controller {
 				label.setPrefHeight(Double.MAX_VALUE);
 				label.maxWidth(Double.MAX_VALUE);
 				label.setPrefWidth(Double.MAX_VALUE);
+				label.getStyleClass().add("calendar-date");
 				label.setId(String.format("label_%d_%d", x, y + 1));
 				EventHandler<MouseEvent> handler = new EventHandler<MouseEvent>() {
 					@Override
@@ -54,11 +55,11 @@ public class Controller {
 							Node lastSelectedNode = getNodeFromGridPane(currentSelectionX, currentSelectionY);
 							if (lastSelectedNode instanceof Label) {
 								Label lastSelected = (Label)lastSelectedNode;
-								lastSelected.setBorder(new Border(new BorderStroke(Color.TRANSPARENT, BorderStrokeStyle.NONE, CornerRadii.EMPTY, BorderWidths.EMPTY)));
+								lastSelected.getStyleClass().remove("calendar-date-selected");
 							}
 						}
 						Label sender = (Label)event.getSource();
-						sender.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+						sender.getStyleClass().add("calendar-date-selected");
 						currentSelectionX = GridPane.getColumnIndex(sender);
 						currentSelectionY = GridPane.getRowIndex(sender);
 					}
