@@ -74,6 +74,10 @@ public class MainScreenController {
 							} catch (IOException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
+								String titleText = "오류 발생";
+								String contentText = "스케쥴을 불러오는 과정에서 오류가 발생했습니다.";
+								showErrorAlert(titleText, contentText);
+								
 							}
 							accountList.setItems(FXCollections.observableArrayList(manager.getProviders()));
 						}
@@ -82,7 +86,7 @@ public class MainScreenController {
 						currentSelectionX = GridPane.getColumnIndex(sender);
 						currentSelectionY = GridPane.getRowIndex(sender);
 					}
-				};
+				}
 				label.addEventHandler(MouseEvent.MOUSE_CLICKED, handler);
 				calendarGrid.add(label, x, y + 1);
 				current = current.plusDays(1);
