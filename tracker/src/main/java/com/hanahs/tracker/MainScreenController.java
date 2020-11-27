@@ -23,13 +23,14 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory;
 
 public class MainScreenController {
 	@FXML private GridPane calendarGrid;
 	@FXML private ListView<AssignmentProvider> accountList;
 	@FXML private Label scheduleDescriptionLabel;
 	@FXML private ListView scheduleList;
-	@FXML Spinner scheduleDays;
+	@FXML Spinner<Integer> scheduleDays;
 	private int currentSelectionY = -1;
 	private int currentSelectionX = -1;
 	private AssignmentManager manager;
@@ -80,8 +81,13 @@ public class MainScreenController {
 				current = current.plusDays(1);
 			}
 		}
+
 		accountList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 		scheduleList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+
+		IntegerSpinnerValueFactory factory = new IntegerSpinnerValueFactory(1, 30, 7);
+		scheduleDays.setValueFactory(factory);
+
 		manager = new AssignmentManager();
 	}
 	
