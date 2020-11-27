@@ -1,10 +1,12 @@
 package com.hanahs.tracker;
 
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+import javafx.collections.FXCollections;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,6 +14,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.control.ListView;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -23,7 +26,7 @@ import javafx.scene.control.Spinner;
 
 public class MainScreenController {
 	@FXML private GridPane calendarGrid;
-	@FXML private ListView accountList;
+	@FXML private ListView<AssignmentProvider> accountList;
 	@FXML private Label scheduleDescriptionLabel;
 	@FXML private ListView scheduleList;
 	@FXML Spinner scheduleDays;
@@ -76,8 +79,21 @@ public class MainScreenController {
 				current = current.plusDays(1);
 			}
 		}
-		
+		accountList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+		scheduleList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 		manager = new AssignmentManager();
+	}
+	
+	private void showErrorAlert(String titleText, String contentText) {
+		Alert alert = new Alert(AlertType.WARNING);
+		alert.setTitle("Warning Dialog");
+		alert.setHeaderText(titleText);
+		alert.setContentText(contentText);
+		alert.showAndWait();
+	}
+	
+	private void updateAccountList() {
+		accountList.setItems(FXCollections.observableArrayList(manager.getProviders()));
 	}
 
 	@FXML public void addAccountButtonAction() throws IOException {
@@ -87,11 +103,27 @@ public class MainScreenController {
 		stage.initModality(Modality.APPLICATION_MODAL);
 		stage.setTitle("계정 유형 선택");
 		stage.setScene(new Scene(root));
-		stage.show();
+		stage.showAndWait();
+		
+		String accountType = AccountSelection.getInstance().getAccountType();
+		if (accountType.equals("google_classroom")) {
+			try {
+				manager.getProviders().add(new GoogleClassroomProvider());
+				updateAccountList();
+			} catch (GeneralSecurityException | IOException e) {
+				e.printStackTrace();
+				String titleText = "오류 발생";
+				String contentText = "계정 추가 중 오류가 발생했습니다.";
+				showErrorAlert(titleText, contentText);
+			}
+		}
 	}
 
 	@FXML public void deleteAccountButtonAction() {
-		System.out.println("Account Delete");
+		int selected = accountList.getSelectionModel().getSelectedIndex();
+		if (selected == -1) return;
+		manager.getProviders().remove(selected);
+		updateAccountList();
 	}
 
 	@FXML public void scheduleAssignmentAction() {
@@ -99,12 +131,10 @@ public class MainScreenController {
 			int days = Optional.ofNullable((Integer)scheduleDays.getValue()).orElse(0);
 			List<List<Assignment>> schedule = manager.scheduleAssignments(days, 5);
 		} catch(IOException e) {
-			Alert alert = new Alert(AlertType.WARNING);
-			alert.setTitle("Warning Dialog");
-			alert.setHeaderText("오류발생");
-			alert.setContentText("스케쥴을 불러오는 과정에서 오류가 발생했습니다.");
-
-			alert.showAndWait();
+			e.printStackTrace();
+			String titleText = "오류 발생";
+			String contentText = "스케쥴을 불러오는 과정에서 오류가 발생했습니다.";
+			showErrorAlert(titleText, contentText);
 		}
 	}
 }
