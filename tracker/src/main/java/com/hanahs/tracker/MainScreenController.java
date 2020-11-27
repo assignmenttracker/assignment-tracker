@@ -2,6 +2,7 @@ package com.hanahs.tracker;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 import javafx.event.EventHandler;
@@ -15,15 +16,21 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
+import javafx.scene.control.Spinner;
 
 public class MainScreenController {
 	@FXML private GridPane calendarGrid;
 	@FXML private ListView accountList;
 	@FXML private Label scheduleDescriptionLabel;
 	@FXML private ListView scheduleList;
+	@FXML Spinner scheduleDays;
 	private int currentSelectionY = -1;
 	private int currentSelectionX = -1;
+	private AssignmentManager manager;
+	
 	
 	private Node getNodeFromGridPane(int col, int row) {
 		for (Node node: calendarGrid.getChildren()) {
@@ -69,6 +76,8 @@ public class MainScreenController {
 				current = current.plusDays(1);
 			}
 		}
+		
+		manager = new AssignmentManager();
 	}
 
 	@FXML public void addAccountButtonAction() throws IOException {
@@ -86,6 +95,16 @@ public class MainScreenController {
 	}
 
 	@FXML public void scheduleAssignmentAction() {
-		
+		try {
+			int days = Optional.ofNullable((Integer)scheduleDays.getValue()).orElse(0);
+			List<List<Assignment>> schedule = manager.scheduleAssignments(days, 5);
+		} catch(IOException e) {
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("Warning Dialog");
+			alert.setHeaderText("오류발생");
+			alert.setContentText("스케쥴을 불러오는 과정에서 오류가 발생했습니다.");
+
+			alert.showAndWait();
+		}
 	}
 }
