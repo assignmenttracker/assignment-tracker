@@ -114,4 +114,9 @@ public class GoogleClassroomProvider extends AssignmentProvider {
 		});
 		return assignments;
 	}
+
+	@Override
+	public String toString() {
+		return "Google Classroom";
+	}
 }
