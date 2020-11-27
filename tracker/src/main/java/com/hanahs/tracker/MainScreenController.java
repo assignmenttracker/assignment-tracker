@@ -67,6 +67,17 @@ public class MainScreenController {
 								Label lastSelected = (Label)lastSelectedNode;
 								lastSelected.getStyleClass().remove("calendar-date-selected");
 							}
+							label.getProperties().get("Date");
+							int days = Optional.ofNullable((Integer)scheduleDays.getValue()).orElse(0);
+							try {
+								List<List<Assignment>> schedule = manager.scheduleAssignments(days, 5);
+							} catch (IOException e) {
+								e.printStackTrace();
+								String titleText = "오류 발생";
+								String contentText = "스케쥴을 불러오는 과정에서 오류가 발생했습니다.";
+								showErrorAlert(titleText, contentText);
+							}
+							accountList.setItems(FXCollections.observableArrayList(manager.getProviders()));
 						}
 						Label sender = (Label)event.getSource();
 						sender.getStyleClass().add("calendar-date-selected");
