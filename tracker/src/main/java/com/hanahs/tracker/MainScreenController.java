@@ -134,7 +134,7 @@ public class MainScreenController {
 		} catch(IOException e) {
 			e.printStackTrace();
 			String titleText = "오류 발생";
-			String contentText = "스케쥴을 불러오는 과정에서 오류가 발생했습니다.";
+			String contentText = "스케줄을 생성하는 과정에서 오류가 발생했습니다.";
 			showErrorAlert(titleText, contentText);
 		}
 	}
