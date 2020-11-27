@@ -103,7 +103,7 @@ public class MainScreenController {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("Warning Dialog");
 			alert.setHeaderText("오류발생");
-			alert.setContentText("스케쥴을 불러오는 과정에서 오류가 발생했습니다.");
+			alert.setContentText("스케쥴을 불러오는 과정에서 오류가 발생했습니다");
 
 			alert.showAndWait();
 		}
