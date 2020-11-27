@@ -85,4 +85,8 @@ public class MainScreenController {
 	@FXML public void deleteAccountButtonAction() {
 		System.out.println("Account Delete");
 	}
+
+	@FXML public void scheduleAssignmentAction() {
+		
+	}
 }
