@@ -53,6 +53,7 @@ public class MainScreenController {
 	@FXML public void initialize() {
 		LocalDate today = LocalDate.now();
 		LocalDate current = LocalDate.now();
+		scheduleDescriptionLabel.setText("");
 		for (int y = 0; y < 6; ++y) {
 			for (int x = 0; x < 7; ++x) {
 				if (current.equals(today) && current.getDayOfWeek().getValue() != x) continue;
@@ -79,8 +80,10 @@ public class MainScreenController {
 						currentSelectionX = GridPane.getColumnIndex(sender);
 						currentSelectionY = GridPane.getRowIndex(sender);
 						
+						
 						if (schedule == null || schedule.size() == 0) return;
 						LocalDate selectedDate = (LocalDate) sender.getProperties().get("date");
+						scheduleDescriptionLabel.setText(String.format("%s의 과제 스케줄", selectedDate.toString()));
 						LocalDate today = LocalDate.now();
 						LocalDate endOfSchedule = today.plusDays(schedule.size() - 1);
 						List<Assignment> assignments = new ArrayList<>();
