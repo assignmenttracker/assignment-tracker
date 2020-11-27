@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.time.temporal.ChronoUnit;
 
 import javafx.collections.FXCollections;
 import javafx.event.EventHandler;
@@ -31,7 +32,7 @@ public class MainScreenController {
 	@FXML private GridPane calendarGrid;
 	@FXML private ListView<AssignmentProvider> accountList;
 	@FXML private Label scheduleDescriptionLabel;
-	@FXML private ListView<String> scheduleList;
+	@FXML private ListView<Assignment> scheduleList;
 	@FXML Spinner<Integer> scheduleDays;
 	private int currentSelectionY = -1;
 	private int currentSelectionX = -1;
@@ -82,7 +83,7 @@ public class MainScreenController {
 						LocalDate selectedDate = (LocalDate) sender.getProperties().get("date");
 						LocalDate today = LocalDate.now();
 						LocalDate endOfSchedule = today.plusDays(schedule.size() - 1);
-						List<String> assignments = new ArrayList<>();
+						List<Assignment> assignments = new ArrayList<>();
 						if (today.isAfter(selectedDate)) {
 							scheduleList.setItems(FXCollections.observableArrayList(assignments));
 							return;
@@ -91,18 +92,10 @@ public class MainScreenController {
 							scheduleList.setItems(FXCollections.observableArrayList(assignments));
 							return;
 						}
-						public void differenceCalculator() throws ParseException {
-							SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
-							Date firstDate = sdf.parse(today);
-							Date secondDate = sdf.parse(selectedDate);
-							long diffInMillies = Math.abs(secondDate.getTime() - firstDate.getTime());
-						    long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
-						 
-						    assertEquals(6, diff);
-						}
-						for(String assigns : assignments) {
-							listView.setItems(FXCollections.observableArrayList("assigns", diff));
-						}
+						
+						long daysBetween = java.time.temporal.ChronoUnit.DAYS.between(today,selectedDate);
+						List<Assignment> scheduleFactors = schedule.get((int) daysBetween);
+						scheduleList.setItems(FXCollections.observableArrayList(scheduleFactors));
 					}
 				};
 				label.addEventHandler(MouseEvent.MOUSE_CLICKED, handler);

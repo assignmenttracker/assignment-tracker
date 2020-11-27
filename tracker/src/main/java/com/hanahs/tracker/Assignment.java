@@ -110,4 +110,7 @@ public class Assignment {
 		estimatedStartDate = LocalDate.from(due).minusDays(getEstimatedETA());
 		return estimatedStartDate;
 	}
+	public String toString() {
+		return getName();
+	}
 }
