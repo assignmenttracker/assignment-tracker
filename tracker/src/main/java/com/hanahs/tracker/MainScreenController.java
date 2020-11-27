@@ -1,17 +1,24 @@
 package com.hanahs.tracker;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Optional;
 
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 
-public class Controller {
+public class MainScreenController {
 	@FXML private GridPane calendarGrid;
 	@FXML private ListView accountList;
 	@FXML private Label scheduleDescriptionLabel;
@@ -65,8 +72,14 @@ public class Controller {
 		}
 	}
 
-	@FXML public void addAccountButtonAction() {
-		System.out.println("Account Add");
+	@FXML public void addAccountButtonAction() throws IOException {
+		FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("AccountSelector.fxml"));
+		Parent root = (Parent) loader.load();
+		Stage stage = new Stage();
+		stage.initModality(Modality.APPLICATION_MODAL);
+		stage.setTitle("계정 유형 선택");
+		stage.setScene(new Scene(root));
+		stage.show();
 	}
 
 	@FXML public void deleteAccountButtonAction() {
